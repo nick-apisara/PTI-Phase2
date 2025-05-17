@@ -1,0 +1,263 @@
+local tempBit = 0 
+local tempWord = 0 
+local tempBit_DPM2_1 = 0
+local tempBit_DPM2_2 = 0
+local tempBit_DPM2_3 = 0
+local tempBit_DPM2_4 = 0
+local tempBit_DPM2_5 = 0
+local tempBit_DPM2_6 = 0
+local tempBit_DPM2_7 = 0
+local tempBit_DPM2_8 = 0
+
+
+local LineToken = "LineToken"
+
+local https = require("https")
+local json = require("json")
+local ltn12 = require("ltn12")
+
+-- Send http.get request and return response result
+function getHttpsUrl(url,header,reqbody)
+    local body = {}
+    local bodyJson = json.encode(body)
+    local result_table, code, headers, status = https.request{
+        method = "POST",
+        url = url,
+        source = ltn12.source.string(reqbody),
+        headers = header,
+        sink = ltn12.sink.table(body)
+   }
+    print("code:"..code)
+    if code~= 200 then
+        return
+    else
+        return body
+    end
+end
+
+function wait(seconds)
+    local start = os.time()
+    repeat until os.time() > start + seconds
+end
+
+
+function getMessageUrl(lineMessage)
+    local url = "https://notify-api.line.me/api/notify"
+    local reqMess = "message="..lineMessage
+    local headers = 
+                {
+                        ["Authorization"] = "Bearer "..LineToken,
+                        ["Content-Type"] = "application/x-www-form-urlencoded",
+                        ["Content-Length"] = #reqMess
+                }
+    
+    print("Get the link:"..url)
+    getHttpsUrl(url, headers, reqMess)
+end
+
+
+function linenotify.main()
+    year = os.date("%Y")
+    month = os.date("%m")
+    day = os.date("%d")
+    hour = os.date("%H")
+    minute = os.date("%M")
+    second = os.date("%S")
+    dtime = day.."-"..month.."-"..year.." "..hour..":"..minute..":"..second
+     ------------
+    --check script
+    ------------
+    if hour..":"..minute..":"..second == "08:00:00" then
+        message = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nScript box2 Phase2 is Working\n**************************'
+        getMessageUrl(message)
+        --print("Script is Working,"..bitValue)
+    elseif hour..":"..minute..":"..second == "17:00:00" then
+        message = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nScript box2 Phase2 is Working\n**************************'
+        getMessageUrl(message)
+        --print("Script is Working,"..bitValue)
+    end
+    ------------
+    --status_DPM2_1
+    ------------
+    if addr_getbit("@status_DPM2_1_Fur1_2") ~= nil then
+        bitValue_DPM2_1 = addr_getbit("@status_DPM2_1_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_1_Fur1_2") ~= nil then
+        Power_total_DPM2_1_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_1_Fur1_2"))
+    end
+    --local bitValue_DPM2_1 = addr_getbit("@status_DPM2_1_Fur1_2");
+    local message_DPM2_1 = ''
+    print("b=="..bitValue_DPM2_1)
+    if bitValue_DPM2_1 == 0 and bitValue_DPM2_1 ~= tempBit_DPM2_1 then
+        message_DPM2_1 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nROW370 No.2 (6bar)F2 Stop Working = '..Power_total_DPM2_1_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_1)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_1 Alarm,"..bitValue_DPM2_1)
+    elseif bitValue_DPM2_1 == 1 and bitValue_DPM2_1 ~= tempBit_DPM2_1 then
+        message_DPM2_1 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nROW370 No.2 (6bar)F2 Start Working = '..Power_total_DPM2_1_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_1)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_1 dismissing,"..bitValue_DPM2_1)
+    end
+    tempBit_DPM2_1 = bitValue_DPM2_1----Prevent monitoring values from continuous being sent to the platform
+    
+    ------------
+    --status_DPM2_2
+    ------------
+    if addr_getbit("@status_DPM2_2_Fur1_2") ~= nil then
+        bitValue_DPM2_2 = addr_getbit("@status_DPM2_2_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_2_Fur1_2") ~= nil then
+        Power_total_DPM2_2_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_2_Fur1_2"))
+    end
+    --local bitValue_DPM2_2 = addr_getbit("@status_DPM2_2_Fur1_2");
+    local message_DPM2_2 = ''
+    print("b=="..bitValue_DPM2_2)
+    if bitValue_DPM2_2 == 0 and bitValue_DPM2_2 ~= tempBit_DPM2_2 then
+        message_DPM2_2 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nROW370 No.1 (6bar)F1 Stop Working = '..Power_total_DPM2_2_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_2)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_2 Alarm,"..bitValue_DPM2_2)
+    elseif bitValue_DPM2_2 == 1 and bitValue_DPM2_2 ~= tempBit_DPM2_2 then
+        message_DPM2_2 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nROW370 No.1 (6bar)F1 Start Working = '..Power_total_DPM2_2_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_2)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_2 dismissing,"..bitValue_DPM2_2)
+    end
+    tempBit_DPM2_2 = bitValue_DPM2_2----Prevent monitoring values from continuous being sent to the platform
+    
+    ------------
+    --status_DPM2_3
+    ------------
+    if addr_getbit("@status_DPM2_3_Fur1_2") ~= nil then
+        bitValue_DPM2_3 = addr_getbit("@status_DPM2_3_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_3_Fur1_2") ~= nil then
+        Power_total_DPM2_3_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_3_Fur1_2"))
+    end
+    --local bitValue_DPM2_3 = addr_getbit("@status_DPM2_3_Fur1_2");
+    local message_DPM2_3 = ''
+    print("b=="..bitValue_DPM2_3)
+    if bitValue_DPM2_3 == 0 and bitValue_DPM2_3 ~= tempBit_DPM2_3 then
+        message_DPM2_3 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER422 (6bar)F1 Stop Working = '..Power_total_DPM2_3_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_3)
+        print("Notification pushed of PATHUMTHANI GLASS DPM1_3 Alarm,"..bitValue_DPM2_3)
+    elseif bitValue_DPM2_3 == 1 and bitValue_DPM2_3 ~= tempBit_DPM2_3 then
+        message_DPM2_3 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER422 (6bar)F1 Start Working = '..Power_total_DPM2_3_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_3)
+        print("Notification pushed of PATHUMTHANI GLASS DPM1_3 dismissing,"..bitValue_DPM2_3)
+    end
+    tempBit_DPM2_3 = bitValue_DPM2_3----Prevent monitoring values from continuous being sent to the platform
+    
+    ------------
+    --status_DPM2_4
+    ------------
+    if addr_getbit("@status_DPM2_4_Fur1_2") ~= nil then
+        bitValue_DPM2_4 = addr_getbit("@status_DPM2_4_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_4_Fur1_2") ~= nil then
+        Power_total_DPM2_4_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_4_Fur1_2"))
+    end
+    --local bitValue_DPM2_4 = addr_getbit("@status_DPM2_4_Fur1_2");
+    local message_DPM2_4 = ''
+    print("b=="..bitValue_DPM2_4)
+    if bitValue_DPM2_4 == 0 and bitValue_DPM2_4 ~= tempBit_DPM2_4 then
+        message_DPM2_4 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.3 (4bar)F1-F2 Stop Working = '..Power_total_DPM2_4_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_4)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_4 Alarm,"..bitValue_DPM2_4)
+    elseif bitValue_DPM2_4 == 1 and bitValue_DPM2_4 ~= tempBit_DPM2_4 then
+        message_DPM2_4 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.3 (4bar)F1-F2 Start Working = '..Power_total_DPM2_4_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_4)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_4 dismissing,"..bitValue_DPM2_4)
+    end
+    tempBit_DPM2_4 = bitValue_DPM2_4----Prevent monitoring values from continuous being sent to the platform 
+    
+    ------------
+    --status_DPM2_5
+    ------------
+    if addr_getbit("@status_DPM2_5_Fur1_2") ~= nil then
+        bitValue_DPM2_5 = addr_getbit("@status_DPM2_5_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_5_Fur1_2") ~= nil then
+        Power_total_DPM2_5_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_5_Fur1_2"))
+    end
+    --local bitValue_DPM2_5 = addr_getbit("@status_DPM2_5_Fur1_2");
+    local message_DPM2_5 = ''
+    print("b=="..bitValue_DPM2_5)
+    if bitValue_DPM2_5 == 0 and bitValue_DPM2_5 ~= tempBit_DPM2_5 then
+        message_DPM2_5 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.2(4bar)F1-F2 Stop Working = '..Power_total_DPM2_5_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_5)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_5 Alarm,"..bitValue_DPM2_5)
+    elseif bitValue_DPM2_5 == 1 and bitValue_DPM2_5 ~= tempBit_DPM2_5 then
+        message_DPM2_5 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.2(4bar)F1-F2 Start Working = '..Power_total_DPM2_5_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_5)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_5 dismissing,"..bitValue_DPM2_5)
+    end
+    tempBit_DPM2_5 = bitValue_DPM2_5----Prevent monitoring values from continuous being sent to the platform
+    
+    ------------
+    --status_DPM2_6
+    ------------
+    if addr_getbit("@status_DPM2_6_Fur1_2") ~= nil then
+        bitValue_DPM2_6 = addr_getbit("@status_DPM2_6_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_6_Fur1_2") ~= nil then
+        Power_total_DPM2_6_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_6_Fur1_2"))
+    end
+    --local bitValue_DPM2_6 = addr_getbit("@status_DPM2_6_Fur1_2");
+    local message_DPM2_6 = ''
+    print("b=="..bitValue_DPM2_6)
+    if bitValue_DPM2_6 == 0 and bitValue_DPM2_6 ~= tempBit_DPM2_6 then
+        message_DPM2_6 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.1(4bar)F1-F2 Stop Working = '..Power_total_DPM2_6_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_6)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_6 Alarm,"..bitValue_DPM2_6)
+    elseif bitValue_DPM2_6 == 1 and bitValue_DPM2_6 ~= tempBit_DPM2_6 then
+        message_DPM2_6 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.1(4bar)F1-F2 Start Working = '..Power_total_DPM2_6_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_6)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_6 dismissing,"..bitValue_DPM2_6)
+    end
+    tempBit_DPM2_6 = bitValue_DPM2_6----Prevent monitoring values from continuous being sent to the platform 
+    
+    ------------
+    --status_DPM2_7
+    ------------
+    if addr_getbit("@status_DPM2_7_Fur1_2") ~= nil then
+        bitValue_DPM2_7 = addr_getbit("@status_DPM2_7_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_7_Fur1_2") ~= nil then
+        Power_total_DPM2_7_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_7_Fur1_2"))
+    end
+    --local bitValue_DPM2_7 = addr_getbit("@status_DPM2_7_Fur1_2");
+    local message_DPM2_7 = ''
+    print("b=="..bitValue_DPM2_7)
+    if bitValue_DPM2_7 == 0 and bitValue_DPM2_7 ~= tempBit_DPM2_7 then
+        message_DPM2_7 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.4(4bar)F1-F2 Stop Working = '..Power_total_DPM2_7_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_7)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_7 Alarm,"..bitValue_DPM2_7)
+    elseif bitValue_DPM2_7 == 1 and bitValue_DPM2_7 ~= tempBit_DPM2_7 then
+        message_DPM2_7 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.4(4bar)F1-F2 Start Working = '..Power_total_DPM2_7_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_7)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_7 dismissing,"..bitValue_DPM2_7)
+    end
+    tempBit_DPM2_7 = bitValue_DPM2_7----Prevent monitoring values from continuous being sent to the platform 
+    
+    ------------
+    --status_DPM2_8
+    ------------
+    if addr_getbit("@status_DPM2_8_Fur1_2") ~= nil then
+        bitValue_DPM2_8 = addr_getbit("@status_DPM2_8_Fur1_2")
+    end
+    if addr_getfloat("@Power_total_DPM2_8_Fur1_2") ~= nil then
+        Power_total_DPM2_8_Fur1_2 = string.format("%.2f",addr_getfloat("@Power_total_DPM2_8_Fur1_2"))
+    end
+    --local bitValue_DPM2_8 = addr_getbit("@status_DPM2_8_Fur1_2");
+    local message_DPM2_8 = ''
+    print("b=="..bitValue_DPM2_8)
+    if bitValue_DPM2_8 == 0 and bitValue_DPM2_8 ~= tempBit_DPM2_8 then
+        message_DPM2_8 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.5(4bar)F1-F2 Stop Working = '..Power_total_DPM2_8_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_8)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_8 Alarm,"..bitValue_DPM2_8)
+    elseif bitValue_DPM2_8 == 1 and bitValue_DPM2_8 ~= tempBit_DPM2_8 then
+        message_DPM2_8 = '\nDataTime : \n'..dtime..'\n************************** \nPATHUMTHANI GLASS :\nKAESER352 No.5(4bar)F1-F2 Start Working = '..Power_total_DPM2_8_Fur1_2..' kW\n**************************'
+        getMessageUrl(message_DPM2_8)
+        print("Notification pushed of PATHUMTHANI GLASS DPM2_8 dismissing,"..bitValue_DPM2_8)
+    end
+    tempBit_DPM2_8 = bitValue_DPM2_8----Prevent monitoring values from continuous being sent to the platform
+    
+end
