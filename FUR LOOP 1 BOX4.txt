@@ -1,0 +1,116 @@
+local DPM1_1_Fur4bak
+local DPM1_2_Fur4bak 
+local DPM1_7_Fur4bak 
+local DPM1_8_Fur4bak
+
+local LineToken = "LineToken"
+local https = require("https")
+local json = require("json")
+local ltn12 = require("ltn12")
+
+-- Send http.get request and return response result
+function getHttpsUrl(url,header,reqbody)
+    local body = {}
+    local bodyJson = json.encode(body)
+    local result_table, code, headers, status = https.request{
+        method = "POST",
+        url = url,
+        source = ltn12.source.string(reqbody),
+        headers = header,
+        sink = ltn12.sink.table(body)
+   }
+    print("code:"..code)
+    if code~= 200 then
+        return
+    else
+        return body
+    end
+end
+
+function getMessageUrl(lineMessage)
+    local url = "https://api.line.me/v2/bot/message/push"
+    local strMSG = lineMessage
+    local reqMess = json.encode(strMSG)
+    local headers = 
+                {
+                        ["Authorization"] = "Bearer "..LineToken,
+                        ["Content-Type"] = "application/json",
+                        ["Content-Length"] = #reqMess
+                }
+    print("Get the link:"..url)
+    print(reqMess)
+    getHttpsUrl(url, headers, reqMess)
+end
+
+function round(x)
+  return x>=0 and math.floor(x+0.5) or math.ceil(x-0.5)
+end
+
+function linenotify.main()
+  year = os.date("%Y")
+  month = os.date("%m")
+  day = os.date("%d")
+  hour = os.date("%H")
+  minute = os.date("%M")
+  second = os.date("%S")
+  dtime = day.."-"..month.."-"..year.." "..hour..":"..minute..":"..second
+  
+  local dtime2 = dtime
+  
+  local DPM1_1_Fur4 = addr_getfloat("@Power_total_DPM1_1_Fur4")
+  if DPM1_1_Fur4bak ~= round(DPM1_1_Fur4) and round(DPM1_1_Fur4) < 1 then
+    strMessage = {
+        ["to"]="GroupId",
+        ["messages"]={{
+             ["type"]="text",
+             ["text"]="KAESER 722 A (4bar) F4\n DateTime :"..dtime2.."\n ALARM: STOP"
+            }}
+      }
+    DPM1_1_Fur4bak = round(DPM1_1_Fur4)
+    getMessageUrl(strMessage)
+    print("Power_total_DPM1_1_Fur4 is "..DPM1_1_Fur4bak)
+  end
+  
+  local DPM1_2_Fur4 = addr_getfloat("@Power_total_DPM1_2_Fur4")
+  if DPM1_2_Fur4bak ~= round(DPM1_2_Fur4) and round(DPM1_2_Fur4) < 1 then
+    strMessage = {
+        ["to"]="GroupId",
+        ["messages"]={{
+             ["type"]="text",
+             ["text"]="KAESER 722 B (4bar) F4\n DateTime :"..dtime2.."\n ALARM: STOP"
+            }}
+      }
+    DPM1_2_Fur4bak = round(DPM1_2_Fur4)
+    getMessageUrl(strMessage)
+    print("Power_total_DPM1_2_Fur4 is "..DPM1_2_Fur4bak)
+  end
+  
+  local DPM1_7_Fur4 = addr_getfloat("@Power_total_DPM1_7_Fur4")
+  if DPM1_7_Fur4bak ~= round(DPM1_7_Fur4) and round(DPM1_7_Fur4) < 1 then
+    strMessage = {
+        ["to"]="GroupId",
+        ["messages"]={{
+             ["type"]="text",
+             ["text"]="L200 (New) (4bar) F4\n DateTime :"..dtime2.."\n ALARM: STOP"
+            }}
+      }
+    DPM1_7_Fur4bak = round(DPM1_7_Fur4)
+    getMessageUrl(strMessage)
+    print("Power_total_DPM1_7_Fur4 is "..DPM1_7_Fur4bak)
+  end
+  
+  local DPM1_8_Fur4 = addr_getfloat("@Power_total_DPM1_8_Fur4")
+  if DPM1_8_Fur4bak ~= round(DPM1_8_Fur4) and round(DPM1_8_Fur4) < 1 then
+    strMessage = {
+        ["to"]="GroupId",
+        ["messages"]={{
+             ["type"]="text",
+             ["text"]="L200 (Old) (4bar) F4\n DateTime :"..dtime2.."\n ALARM: STOP"
+            }}
+      }
+    DPM1_8_Fur4bak = round(DPM1_8_Fur4)
+    getMessageUrl(strMessage)
+    print("Power_total_DPM1_8_Fur4 is "..DPM1_8_Fur4bak)
+  end
+  
+end
