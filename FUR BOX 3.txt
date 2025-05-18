@@ -1,0 +1,92 @@
+local DPM3_7_Fur1_2bak
+local DPM3_6_Fur1_2bak
+
+local TokenL2
+local TokenL3
+
+local GroupL2
+local GroupL3
+
+local https = require("https")
+local json = require("json")
+local ltn12 = require("ltn12")
+
+-- Send http.get request and return response result
+function getHttpsUrl(url,header,reqbody)
+    local body = {}
+    local bodyJson = json.encode(body)
+    local result_table, code, headers, status = https.request{
+        method = "POST",
+        url = url,
+        source = ltn12.source.string(reqbody),
+        headers = header,
+        sink = ltn12.sink.table(body)
+   }
+    print("code:"..code)
+    if code~= 200 then
+        return
+    else
+        return body
+    end
+end
+
+function getMessageUrl(lineMessage,Token)
+    local LineToken = Token
+    local url = "https://api.line.me/v2/bot/message/push"
+    local strMSG = lineMessage
+    local reqMess = json.encode(strMSG)
+    local headers = 
+                {
+                        ["Authorization"] = "Bearer "..LineToken,
+                        ["Content-Type"] = "application/json",
+                        ["Content-Length"] = #reqMess
+                }
+    print("Get the link:"..url)
+    print(reqMess)
+    getHttpsUrl(url, headers, reqMess)
+end
+
+function round(x)
+  return x>=0 and math.floor(x+0.5) or math.ceil(x-0.5)
+end
+
+function linenotify.main()
+  year = os.date("%Y")
+  month = os.date("%m")
+  day = os.date("%d")
+  hour = os.date("%H")
+  minute = os.date("%M")
+  second = os.date("%S")
+  dtime = day.."-"..month.."-"..year.." "..hour..":"..minute..":"..second
+  
+  local dtime2 = dtime
+  --dosomething
+  local DPM3_7_Fur1_2 = addr_getfloat("@Power_total_DPM3_7_Fur1_2")
+  if DPM3_7_Fur1_2bak ~= round(DPM3_7_Fur1_2) and round(DPM3_7_Fur1_2) < 1 then
+      strMessage = {
+        ["to"]=GroupL3,
+        ["messages"]={{
+             ["type"]="text",
+             ["text"]="IS Cooling Fan 250 kW L21\n DateTime :"..dtime2.."\n ALARM: STOP"
+            }}
+      }
+      DPM3_7_Fur1_2bak = round(DPM3_7_Fur1_2)
+      getMessageUrl(strMessage,TokenL3)
+      print("Power_total_DPM3_7_Fur1_2 is "..DPM3_7_Fur1_2bak)
+  end
+  
+  local DPM3_6_Fur1_2 = addr_getfloat("@Power_total_DPM3_6_Fur1_2")
+  if DPM3_6_Fur1_2bak ~= round(DPM3_6_Fur1_2) and round(DPM3_6_Fur1_2) < 1 then
+      strMessage = {
+        ["to"]=GroupL3,
+        ["messages"]={{
+             ["type"]="text",
+             ["text"]="IS Cooling Fan 250 kW L22\n DateTime :"..dtime2.."\n ALARM: STOP"
+            }}
+      }
+      DPM3_6_Fur1_2bak = round(DPM3_6_Fur1_2)
+      getMessageUrl(strMessage,TokenL3)
+      print("Power_total_DPM3_7_Fur1_2 is "..DPM3_6_Fur1_2bak)
+  end
+  
+end
