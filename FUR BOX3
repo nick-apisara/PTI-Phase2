@@ -1,11 +1,11 @@
 local DPM3_7_Fur1_2bak
 local DPM3_6_Fur1_2bak
 
-local TokenL2
-local TokenL3
+local TokenL2 = ""
+local TokenL3 = ""
 
-local GroupL2
-local GroupL3
+local GroupL2 = ""
+local GroupL3 = ""
 
 local https = require("https")
 local json = require("json")
