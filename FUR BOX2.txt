@@ -1,4 +1,15 @@
-local LineToken = "LineToken"
+local DPM2_6_F1_2bak
+local DPM2_5_F1_2bak
+local DPM2_4_F1_2bak
+local DPM2_7_F1_2bak
+local DPM2_8_F1_2bak
+
+local DPM2_2_F1_2bak
+local DPM2_3_F1_2bak
+local DPM2_1_F1_2bak
+  
+
+local LineToken = ""
 local https = require("https")
 local json = require("json")
 local ltn12 = require("ltn12")
@@ -41,8 +52,9 @@ function round(x)
   return x>=0 and math.floor(x+0.5) or math.ceil(x-0.5)
 end
 
-
+  
 function linenotify.main()
+
   year = os.date("%Y")
   month = os.date("%m")
   day = os.date("%d")
@@ -53,25 +65,17 @@ function linenotify.main()
   
   local dtime2 = dtime
   --dosomething
-  local DPM2_6_F1_2bak
-  local DPM2_5_F1_2bak
-  local DPM2_4_F1_2bak
-  local DPM2_7_F1_2bak
-  local DPM2_8_F1_2bak
-
-  local DPM2_2_F1_2bak
-  local DPM2_3_F1_2bak
-  local DPM2_1_F1_2bak
   
   local DPM2_6_F1_2 = addr_getfloat("@Power_total_DPM2_6_Fur1_2")
   if DPM2_6_F1_2bak ~= round(DPM2_6_F1_2) and round(DPM2_6_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="KAESER 352 No.1 (4bar) F1-F2\n DateTime :"..dtime2.."\n ALARM: STOP"
             }}
       }
+    -- cnt2_6 = cnt2_6+1
     DPM2_6_F1_2bak = round(DPM2_6_F1_2)
     getMessageUrl(strMessage)
     print("Power_total_DPM2_6_Fur1_2 is "..DPM2_6_F1_2)
@@ -80,7 +84,7 @@ function linenotify.main()
   local DPM2_5_F1_2 = addr_getfloat("@Power_total_DPM2_5_Fur1_2")
   if DPM2_5_F1_2bak ~= round(DPM2_5_F1_2) and round(DPM2_5_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="KAESER 352 No.2 (4bar) F1-F2\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -94,7 +98,7 @@ function linenotify.main()
   local DPM2_4_F1_2 = addr_getfloat("@Power_total_DPM2_4_Fur1_2")
   if DPM2_4_F1_2bak ~= round(DPM2_4_F1_2) and round(DPM2_4_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="KAESER 352 No.3 (4bar) F1-F2\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -108,7 +112,7 @@ function linenotify.main()
   local DPM2_7_F1_2 = addr_getfloat("@Power_total_DPM2_7_Fur1_2")
   if DPM2_7_F1_2bak ~= round(DPM2_7_F1_2) and round(DPM2_7_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="KAESER 352 No.4 (4bar) F1-F2\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -122,7 +126,7 @@ function linenotify.main()
   local DPM2_8_F1_2 = addr_getfloat("@Power_total_DPM2_8_Fur1_2")
   if DPM2_8_F1_2bak ~= round(DPM2_8_F1_2) and round(DPM2_8_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="KAESER 352 No.5 (4bar) F1-F2\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -136,7 +140,7 @@ function linenotify.main()
   local DPM2_2_F1_2 = addr_getfloat("@Power_total_DPM2_2_Fur1_2")
   if DPM2_2_F1_2bak ~= round(DPM2_2_F1_2) and round(DPM2_2_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="ROW 370 No.1 (6bar) F1\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -150,7 +154,7 @@ function linenotify.main()
   local DPM2_3_F1_2 = addr_getfloat("@Power_total_DPM2_3_Fur1_2")
   if DPM2_3_F1_2bak ~= round(DPM2_3_F1_2) and round(DPM2_3_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="KAESER 442 (6bar) F1\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -158,13 +162,13 @@ function linenotify.main()
       }
     DPM2_3_F1_2bak = round(DPM2_3_F1_2)
     getMessageUrl(strMessage)
-    print("Power_total_DPM2_3_Fur1_2 is "..DPM2_3_F1_2)
+    print("Power_total_DPM2_3_Fur1_2 is "..DPM2_3_F1_2bak)
   end
   
   local DPM2_1_F1_2 = addr_getfloat("@Power_total_DPM2_1_Fur1_2")
   if DPM2_1_F1_2bak ~= round(DPM2_1_F1_2) and round(DPM2_1_F1_2) < 1 then
     strMessage = {
-        ["to"]="GroupId",
+        ["to"]="",
         ["messages"]={{
              ["type"]="text",
              ["text"]="ROW 370 No.2 (6bar) F1\n DateTime :"..dtime2.."\n ALARM: STOP"
@@ -172,7 +176,7 @@ function linenotify.main()
       }
     DPM2_1_F1_2bak = round(DPM2_1_F1_2)
     getMessageUrl(strMessage)
-    print("Power_total_DPM2_1_Fur1_2 is "..DPM2_1_F1_2)
+    print("Power_total_DPM2_1_Fur1_2 is "..DPM2_1_F1_2bak)
   end
   
 end
